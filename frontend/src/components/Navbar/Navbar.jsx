@@ -20,12 +20,12 @@ const Navbar = () => {
       <div className="navigate">
         <ul>
           <li>
-            {/* <Link to="/agencies">Agencies</Link> */}
-            Agencies
+            <Link to="/agencies">Agencies</Link>
+            {/* Agencies */}
           </li>
           <li>
-            {/* <Link to="/clients">Clients</Link> */}
-            Clients
+            <Link to="/clients">Clients</Link>
+            {/* Clients */}
           </li>
         </ul>
       </div>

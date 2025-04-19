@@ -12,6 +12,8 @@ const app = express();
 // To process incoming req.
 app.use(express.json());
 
+app.use(cors());
+
 // Routes
 app.use("/api/agencies", agencyRouter);
 app.use("/api/clients", clientRouter);

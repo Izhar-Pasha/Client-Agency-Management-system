@@ -30,6 +30,10 @@ export const CreateAgency = async (req, res, next) => {
 
     const newAgency = new Agency({ Name, Address, Phone });
 
+    if (!newAgency) {
+      throw next(new AppError("Failed to create agency", 404));
+    }
+    // console.log("newAgency Created:", newAgency);
     await newAgency.save();
 
     success(res, "Agency is Successfully created", newAgency, 201);

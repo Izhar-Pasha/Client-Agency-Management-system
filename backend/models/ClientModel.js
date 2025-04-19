@@ -28,6 +28,7 @@ const ClientModel = new mongoose.Schema({
   AgencyId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Agency",
+    required: true,
   },
 });
 

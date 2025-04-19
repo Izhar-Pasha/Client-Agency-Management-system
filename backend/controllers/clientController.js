@@ -22,15 +22,15 @@ import success from "../errorHandling/handleSuccess.js";
  */
 
 export const createClient = async (req, res, next) => {
-  const { Name, Email, Phone, TotalBill, Agency } = req.body;
+  const { Name, Email, Phone, TotalBill, AgencyId } = req.body;
 
   try {
-    if (!Name || !Email || !Phone || !TotalBill || !Agency) {
+    if (!Name || !Email || !Phone || !TotalBill || !AgencyId) {
       console.warn("All fields are required");
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const newClient = new Client({ Name, Email, Phone, TotalBill, Agency });
+    const newClient = new Client({ Name, Email, Phone, TotalBill, AgencyId });
 
     await newClient.save();
 
@@ -56,10 +56,11 @@ export const createClient = async (req, res, next) => {
 
 export const getClient = async (req, res, next) => {
   try {
-    const getClients = await Client.find().populate("Agency", "_id Name");
+    const getClients = await Client.find().populate("AgencyId");
+    // console.log(JSON.stringify(getClients, null, 2));
 
-    if (getClients.length === 0) {
-      return next(new AppError("No clients found", 404));
+    if (!getClients) {
+      throw next(new AppError("No clients found", 404));
     }
 
     success(res, "Fetched All clients", getClients, 200);
@@ -90,7 +91,7 @@ export const getClientById = async (req, res, next) => {
     const getClient = await Client.findById(id).populate("Agency", "_id Name");
 
     if (!getClient) {
-      return next(new AppError("Failed to get Client", 404));
+      throw next(new AppError("Failed to get Client", 404));
     }
 
     success(res, "Single Client", getClient, 200);
@@ -131,7 +132,7 @@ export const updateClientById = async (req, res, next) => {
     );
 
     if (!updatedClient) {
-      return next(new AppError("Failed to update the client", 404));
+      throw next(new AppError("Failed to update the client", 404));
     }
 
     success(res, "Updated Client", updatedClient, 200);
@@ -162,7 +163,7 @@ export const deleteClientById = async (req, res, next) => {
     const deleteClient = await Client.findByIdAndDelete(id);
 
     if (!deleteClient) {
-      return next(new AppError("Failed to delete the client", 404));
+      throw next(new AppError("Failed to delete the client", 404));
     }
 
     success(res, "Deleted Client", deleteClient, 200);

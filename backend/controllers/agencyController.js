@@ -31,9 +31,9 @@ export const CreateAgency = async (req, res, next) => {
     const newAgency = new Agency({ Name, Address, Phone });
 
     if (!newAgency) {
-      throw next(new AppError("Failed to create agency", 404));
+      throw new AppError("Failed to create agency", 404);
     }
-    // console.log("newAgency Created:", newAgency);
+
     await newAgency.save();
 
     success(res, "Agency is Successfully created", newAgency, 201);
@@ -60,7 +60,7 @@ export const getAgency = async (req, res, next) => {
   try {
     const AllAgency = await Agency.find();
     if (!AllAgency) {
-      throw next(new AppError("Failed to get all agency", 404));
+      throw new AppError("Failed to get all agency", 404);
     }
 
     success(res, "Fetched All Agencies", AllAgency, 200);
@@ -90,7 +90,7 @@ export const getAgencyById = async (req, res, next) => {
   try {
     const AgencyById = await Agency.findById(id);
     if (!AgencyById) {
-      throw next(new AppError("Failed to get agency", 404));
+      throw new AppError("Failed to get agency", 404);
     }
 
     success(res, "Single Agency", AgencyById, 200);
@@ -129,7 +129,7 @@ export const updateAgencyById = async (req, res, next) => {
       { new: true }
     );
     if (!updatedAgency) {
-      throw next(new AppError("Failed to update agency", 404));
+      throw new AppError("Failed to update agency", 404);
     }
 
     success(res, "Updated Agency", updatedAgency, 200);
@@ -160,7 +160,7 @@ export const deleteAgencyById = async (req, res, next) => {
     const deleteAgency = await Agency.findByIdAndDelete(id);
 
     if (!deleteAgency) {
-      throw next(new AppError("Failed to delete agency", 404));
+      throw new AppError("Failed to delete agency", 404);
     }
     success(res, "Deleted Agency", deleteAgency, 200);
   } catch (error) {

@@ -60,7 +60,7 @@ export const getClient = async (req, res, next) => {
     // console.log(JSON.stringify(getClients, null, 2));
 
     if (!getClients) {
-      throw next(new AppError("No clients found", 404));
+      throw new AppError("No clients found", 404);
     }
 
     success(res, "Fetched All clients", getClients, 200);
@@ -91,7 +91,7 @@ export const getClientById = async (req, res, next) => {
     const getClient = await Client.findById(id).populate("Agency", "_id Name");
 
     if (!getClient) {
-      throw next(new AppError("Failed to get Client", 404));
+      throw new AppError("Failed to get Client", 404);
     }
 
     success(res, "Single Client", getClient, 200);
@@ -132,7 +132,7 @@ export const updateClientById = async (req, res, next) => {
     );
 
     if (!updatedClient) {
-      throw next(new AppError("Failed to update the client", 404));
+      throw new AppError("Failed to update the client", 404);
     }
 
     success(res, "Updated Client", updatedClient, 200);
@@ -163,7 +163,7 @@ export const deleteClientById = async (req, res, next) => {
     const deleteClient = await Client.findByIdAndDelete(id);
 
     if (!deleteClient) {
-      throw next(new AppError("Failed to delete the client", 404));
+      throw new AppError("Failed to delete the client", 404);
     }
 
     success(res, "Deleted Client", deleteClient, 200);
